@@ -3,8 +3,6 @@ import random
 
 
 # Snake-Game Code
-
-
 def SnakeGame(query_func=None, user=None):
     GameWidth = 500
     GameHeight = 500

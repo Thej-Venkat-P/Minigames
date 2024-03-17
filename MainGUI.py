@@ -14,7 +14,12 @@ connection = mysql.connector.connect(
 )
 cursor = connection.cursor()
 
+BACKGROUND_COLOR = "#cccccc"
+LABEL_BACKGROUND_COLOR = "#cccccc"
+LABEL_TEXT_COLOR = "#000000"
 
+
+# Function to execute a query
 def execute_query(query):
     print(query)
     cursor.execute(query)
@@ -29,6 +34,7 @@ def play_gamble_game():
     login_window(main_window, secondary=True)
 
 
+# Clear the window
 def clear_window(window):
     for widget in window.winfo_children():
         widget.destroy()
@@ -47,6 +53,7 @@ def play_space_invaders_game():
     return player_score
 
 
+# Select Game
 def game_selected(game):
     if game == "Gamble":
         play_gamble_game()
@@ -56,17 +63,18 @@ def game_selected(game):
         play_space_invaders_game()
 
 
+# Window to Choose Game
 def play_window(window):
     # Create the main window
     root = window
     # Clear the window
-    for widget in root.winfo_children():
-        widget.destroy()
+    clear_window(root)
     root.title("Game Selection")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
+    style.configure("TLabel", foreground=LABEL_TEXT_COLOR)  # Modify Label's Foreground color
 
     # Add a header label
     header_label = ttk.Label(
@@ -74,7 +82,7 @@ def play_window(window):
         text="Choose a Game",
         font=("Arial", 24, "bold"),
         foreground="#ffffff",
-        background="#1c1c1c",
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -130,6 +138,7 @@ def play_window(window):
     # root.mainloop()
 
 
+# Verify Login
 def verify_login(window, username, password, secondary=False):
     if username == "ADMIN" and password == "ADMIN":
         admin_window(window)
@@ -160,31 +169,30 @@ def verify_login(window, username, password, secondary=False):
                     window,
                     text="Invalid Login",
                     font=("Arial", 12, "bold"),
-                    foreground="#ffffff",
-                    background="#1c1c1c",
+                    foreground=LABEL_TEXT_COLOR,
+                    background=LABEL_BACKGROUND_COLOR,
                 )
                 invalid_login_label.pack(pady=10)
-
     else:
         # Create Label Invalid Login
         invalid_login_label = ttk.Label(
             window,
             text="Invalid Login",
             font=("Arial", 12, "bold"),
-            foreground="#ffffff",
-            background="#1c1c1c",
+            foreground=LABEL_TEXT_COLOR,
+            background=LABEL_BACKGROUND_COLOR,
         )
         invalid_login_label.pack(pady=10)
 
 
+# Login Window
 def login_window(window, secondary=False):
     root = window
     # Clear the window
-    for widget in root.winfo_children():
-        widget.destroy()
+    clear_window(root)
     root.title("Login")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
 
@@ -193,8 +201,8 @@ def login_window(window, secondary=False):
         root,
         text="Login",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -203,8 +211,8 @@ def login_window(window, secondary=False):
         root,
         text="Username",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     username_label.pack(pady=10)
     username_entry = ttk.Entry(root, font=("Arial", 12))
@@ -215,8 +223,8 @@ def login_window(window, secondary=False):
         root,
         text="Password",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     password_label.pack(pady=10)
     password_entry = ttk.Entry(root, font=("Arial", 12), show="*")
@@ -255,6 +263,7 @@ def login_window(window, secondary=False):
     exit_button.pack(pady=10)
 
 
+# Register User
 def register_user(window, username, password, phone, email):
     print("Username:", username)
     print("Password:", password)
@@ -270,20 +279,20 @@ def register_user(window, username, password, phone, email):
         window,
         text="User Registered",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     registered_label.pack(pady=10)
 
 
+# Register Window
 def register_window(window):
     root = window
     # Clear the window
-    for widget in root.winfo_children():
-        widget.destroy()
+    clear_window(root)
     root.title("Register")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
 
@@ -292,8 +301,8 @@ def register_window(window):
         root,
         text="Register",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -302,8 +311,8 @@ def register_window(window):
         root,
         text="Username",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     username_label.pack(pady=10)
 
@@ -315,8 +324,8 @@ def register_window(window):
         root,
         text="Password",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     password_label.pack(pady=10)
 
@@ -328,8 +337,8 @@ def register_window(window):
         root,
         text="Phone Number",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     phone_label.pack(pady=10)
 
@@ -341,8 +350,8 @@ def register_window(window):
         root,
         text="Email",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     email_label.pack(pady=10)
 
@@ -376,12 +385,13 @@ def register_window(window):
     back_button.pack(pady=10)
 
 
+# Scrollable Window for diplaying data
 def scrollable_window(window, title, data, back_window=None):
     clear_window(window)
     root = window
     root.title(title)
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
 
@@ -390,13 +400,13 @@ def scrollable_window(window, title, data, back_window=None):
         root,
         text=title,
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
     # Add a Scrollable Frame to print each row of data
-    canvas = tk.Canvas(root, bg="#1c1c1c")
+    canvas = tk.Canvas(root, bg=LABEL_BACKGROUND_COLOR)
     canvas.pack(side="left", fill="both", expand=True)
     scrollbar = ttk.Scrollbar(root, orient="vertical", command=canvas.yview)
     scrollbar.pack(side="right", fill="y")
@@ -412,8 +422,8 @@ def scrollable_window(window, title, data, back_window=None):
             frame,
             text=row,
             font=("Arial", 12, "bold"),
-            foreground="#ffffff",
-            background="#1c1c1c",
+            foreground=LABEL_TEXT_COLOR,
+            background=LABEL_BACKGROUND_COLOR,
         )
         row_label.pack(pady=10)
 
@@ -431,11 +441,12 @@ def scrollable_window(window, title, data, back_window=None):
     back_button.pack(pady=10)
 
 
+# Score Window
 def score_window(root):
     clear_window(root)
     root.title("Scores")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
 
@@ -444,8 +455,8 @@ def score_window(root):
         root,
         text="Scores",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -490,12 +501,13 @@ def score_window(root):
     back_button.pack(pady=10)
 
 
+# Gamble Game Scores Window
 def gamble_game_scores_window(window):
     clear_window(window)
     root = window
     root.title("Gamble Game Scores")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
 
@@ -504,8 +516,8 @@ def gamble_game_scores_window(window):
         root,
         text="Gamble Game Scores",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -552,12 +564,13 @@ def gamble_game_scores_window(window):
     back_button.pack(pady=10)
 
 
+# Snake Game Scores Window
 def snake_game_scores_window(window):
     clear_window(window)
     root = window
     root.title("Snake Game Scores")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
 
@@ -566,8 +579,8 @@ def snake_game_scores_window(window):
         root,
         text="Snake Game Scores",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -641,13 +654,13 @@ def snake_game_scores_window(window):
     )
     back_button.pack(pady=10)
 
-
+# Space Invaders Game Scores Window
 def space_invaders_game_scores_window(window):
     clear_window(window)
     root = window
     root.title("Space Invaders Game Scores")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
 
@@ -656,8 +669,8 @@ def space_invaders_game_scores_window(window):
         root,
         text="Space Invaders Game Scores",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -732,12 +745,13 @@ def space_invaders_game_scores_window(window):
     back_button.pack(pady=10)
 
 
+# Admin Window
 def admin_window(window):
     clear_window(window)    
     root = window
     root.title("Admin")
     root.geometry("500x500")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
     
@@ -746,8 +760,8 @@ def admin_window(window):
         root,
         text="Admin",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
     
@@ -818,37 +832,38 @@ def admin_window(window):
     back_button.pack(pady=10)
 
 
+# Delete User Window
 def delete_user_window(window):
     clear_window(window)
     root = window
     root.title("Delete User")
     root.geometry("500x600")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
-    
+
     # Add a header label
     header_label = ttk.Label(
         root,
         text="Delete User",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
-    
+
     # Add a username label and entry
     username_label = ttk.Label(
         root,
         text="Username",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     username_label.pack(pady=10)
     username_entry = ttk.Entry(root, font=("Arial", 12))
     username_entry.pack(pady=10)
-    
+
     # Add a Find Details button
     find_details_button = ttk.Button(
         root,
@@ -858,37 +873,37 @@ def delete_user_window(window):
         style="TButton",
     )
     find_details_button.pack(pady=10)
-    
+
     # Password Label
     password_label = ttk.Label(
         root,
         text="Password: ",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     password_label.pack(pady=10)
-    
+
     # Phone Label
     phone_label = ttk.Label(
         root,
         text="Phone: ",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     phone_label.pack(pady=10)
-    
+
     # Email Label
     email_label = ttk.Label(
         root,
         text="Email: ",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     email_label.pack(pady=10)
-    
+
     # Find Details Function
     def find_user_details(username):
         query = f"SELECT * FROM USER_INFO WHERE USERNAME = '{username}';"
@@ -901,7 +916,7 @@ def delete_user_window(window):
             password_label.config(text="Password: ")
             phone_label.config(text="Phone: ")
             email_label.config(text="Email: ")
-    
+
     # Add a Delete User button
     delete_user_button = ttk.Button(
         root,
@@ -911,7 +926,7 @@ def delete_user_window(window):
         style="TButton",
     )
     delete_user_button.pack(pady=10)
-    
+
     # Add a back button
     back_button = ttk.Button(
         root,
@@ -923,12 +938,13 @@ def delete_user_window(window):
     back_button.pack(pady=10)    
 
 
+# Update User Window
 def update_user_window(window):
     clear_window(window)
     root = window
     root.title("Update User")
     root.geometry("500x600")  # Set the window size
-    root.configure(bg="#1c1c1c")  # Set the background color
+    root.configure(bg=BACKGROUND_COLOR)  # Set the background color
     style = ttk.Style()
     style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
     
@@ -955,8 +971,8 @@ def update_user_window(window):
         root,
         text="Update User",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
 
@@ -965,8 +981,8 @@ def update_user_window(window):
         root,
         text="Username",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     username_label.pack(pady=10)
     username_entry = ttk.Entry(root, font=("Arial", 12))
@@ -987,8 +1003,8 @@ def update_user_window(window):
         root,
         text="Password: ",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     password_label.pack(pady=10)
     # Password Entry
@@ -1000,8 +1016,8 @@ def update_user_window(window):
         root,
         text="Phone: ",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     phone_label.pack(pady=10)
     # Phone Entry
@@ -1013,8 +1029,8 @@ def update_user_window(window):
         root,
         text="Email: ",
         font=("Arial", 12, "bold"),
-        foreground="#ffffff",
-        background="#1c1c1c",
+        foreground=LABEL_TEXT_COLOR,
+        background=LABEL_BACKGROUND_COLOR,
     )
     email_label.pack(pady=10)
     # Email Entry
