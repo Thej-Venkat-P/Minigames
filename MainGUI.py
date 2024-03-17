@@ -131,6 +131,9 @@ def play_window(window):
 
 
 def verify_login(window, username, password, secondary=False):
+    if username == "ADMIN" and password == "ADMIN":
+        admin_window(window)
+        return
     query = f"SELECT USER_PASSWORD FROM USERS_LOGIN WHERE USERNAME = '{username}';"
     password_in_db = execute_query(query)
     if password_in_db and password == password_in_db[0][0]:
@@ -373,7 +376,7 @@ def register_window(window):
     back_button.pack(pady=10)
 
 
-def scrollable_window(window, title, data):
+def scrollable_window(window, title, data, back_window=None):
     clear_window(window)
     root = window
     root.title(title)
@@ -414,11 +417,14 @@ def scrollable_window(window, title, data):
         )
         row_label.pack(pady=10)
 
+    if not back_window:
+        back_window = score_window
+    
     # Add a back button
     back_button = ttk.Button(
         root,
         text="Back",
-        command=lambda: score_window(root),
+        command=lambda: back_window(root),
         width=20,
         style="TButton",
     )
@@ -726,6 +732,316 @@ def space_invaders_game_scores_window(window):
     back_button.pack(pady=10)
 
 
+def admin_window(window):
+    clear_window(window)    
+    root = window
+    root.title("Admin")
+    root.geometry("500x500")  # Set the window size
+    root.configure(bg="#1c1c1c")  # Set the background color
+    style = ttk.Style()
+    style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
+    
+    # Add a header label
+    header_label = ttk.Label(
+        root,
+        text="Admin",
+        font=("Arial", 24, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    header_label.pack(pady=20)
+    
+    # Button to view all users
+    all_users_button = ttk.Button(
+        root,
+        text="View All Users",
+        command=lambda: scrollable_window(root, "All Users", execute_query("SELECT * FROM USERS_INFO;"), back_window=admin_window),
+        width=20,
+        style="TButton",
+    )
+    all_users_button.pack(pady=10)
+    
+    # Delete a user
+    delete_user_button = ttk.Button(
+        root,
+        text="Delete User",
+        command=lambda: delete_user_window(root),
+        width=20,
+        style="TButton",
+    )
+    delete_user_button.pack(pady=10)
+    
+    # Update user details
+    update_user_button = ttk.Button(
+        root,
+        text="Update User",
+        command=lambda: update_user_window(root),
+        width=20,
+        style="TButton",
+    )
+    update_user_button.pack(pady=10)
+    
+    # Find users who never played a game
+    no_users_query = """
+    SELECT USERNAME 
+    FROM USERS_LOGIN 
+    WHERE USERNAME NOT IN (
+            SELECT USERNAME FROM SNAKE_GAME
+        ) AND
+        USERNAME NOT IN (
+            SELECT USERNAME FROM SPACE_INVADERS_GAME
+        ) AND
+        USERNAME NOT IN (
+            SELECT USER1 FROM GAMBLE_GAME_GAMBLES
+        ) AND
+        USERNAME NOT IN (
+            SELECT USER2 FROM GAMBLE_GAME_GAMBLES
+        );
+    ;"""
+    no_game_users_button = ttk.Button(
+        root,
+        text="Users who never played a game",
+        command=lambda: scrollable_window(root, "Users who never played a game", execute_query(no_users_query), back_window = admin_window),
+        width=20,
+        style="TButton",
+    )
+    no_game_users_button.pack(pady=10)
+    
+    # Add a back button
+    back_button = ttk.Button(
+        root,
+        text="Back",
+        command=lambda: login_window(root),
+        width=20,
+        style="TButton",
+    )
+    back_button.pack(pady=10)
+
+
+def delete_user_window(window):
+    clear_window(window)
+    root = window
+    root.title("Delete User")
+    root.geometry("500x600")  # Set the window size
+    root.configure(bg="#1c1c1c")  # Set the background color
+    style = ttk.Style()
+    style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
+    
+    # Add a header label
+    header_label = ttk.Label(
+        root,
+        text="Delete User",
+        font=("Arial", 24, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    header_label.pack(pady=20)
+    
+    # Add a username label and entry
+    username_label = ttk.Label(
+        root,
+        text="Username",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    username_label.pack(pady=10)
+    username_entry = ttk.Entry(root, font=("Arial", 12))
+    username_entry.pack(pady=10)
+    
+    # Add a Find Details button
+    find_details_button = ttk.Button(
+        root,
+        text="Find Details",
+        command=lambda: find_user_details(username_entry.get()),
+        width=20,
+        style="TButton",
+    )
+    find_details_button.pack(pady=10)
+    
+    # Password Label
+    password_label = ttk.Label(
+        root,
+        text="Password: ",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    password_label.pack(pady=10)
+    
+    # Phone Label
+    phone_label = ttk.Label(
+        root,
+        text="Phone: ",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    phone_label.pack(pady=10)
+    
+    # Email Label
+    email_label = ttk.Label(
+        root,
+        text="Email: ",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    email_label.pack(pady=10)
+    
+    # Find Details Function
+    def find_user_details(username):
+        query = f"SELECT * FROM USER_INFO WHERE USERNAME = '{username}';"
+        results = execute_query(query)
+        if results:
+            password_label.config(text="Password: " + results[0][1])
+            phone_label.config(text="Phone: " + results[0][2])
+            email_label.config(text="Email: " + results[0][3])
+        else:
+            password_label.config(text="Password: ")
+            phone_label.config(text="Phone: ")
+            email_label.config(text="Email: ")
+    
+    # Add a Delete User button
+    delete_user_button = ttk.Button(
+        root,
+        text="Delete User",
+        command=lambda: execute_query(f"DELETE FROM USERS_LOGIN WHERE USERNAME = '{username_entry.get()}';"),
+        width=20,
+        style="TButton",
+    )
+    delete_user_button.pack(pady=10)
+    
+    # Add a back button
+    back_button = ttk.Button(
+        root,
+        text="Back",
+        command=lambda: admin_window(root),
+        width=20,
+        style="TButton",
+    )
+    back_button.pack(pady=10)    
+
+
+def update_user_window(window):
+    clear_window(window)
+    root = window
+    root.title("Update User")
+    root.geometry("500x600")  # Set the window size
+    root.configure(bg="#1c1c1c")  # Set the background color
+    style = ttk.Style()
+    style.configure("TButton", font=("Arial", 12, "bold"), foreground="#000000")
+    
+    # Update User Function
+    def update_user(username, password, phone, email):
+        query = f"CALL UpdateUserDetails('{username}', '{password}', '{phone}', '{email}');"
+        execute_query(query)
+
+    # Find User Details Function
+    def find_user_details(username):
+        query = f"SELECT USER_PASSWORD, PHONE, EMAIL FROM USERS_INFO WHERE USERNAME = '{username}';"
+        result = execute_query(query)
+        if result:
+            password_label.config(text="Password: " + result[0][0])
+            phone_label.config(text="Phone: " + result[0][1])
+            email_label.config(text="Email: " + result[0][2])
+        else:
+            password_label.config(text="Password: ")
+            phone_label.config(text="Phone: ")
+            email_label.config(text="Email: ")
+
+    # Add a header label
+    header_label = ttk.Label(
+        root,
+        text="Update User",
+        font=("Arial", 24, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    header_label.pack(pady=20)
+
+    # Add a username label and entry
+    username_label = ttk.Label(
+        root,
+        text="Username",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    username_label.pack(pady=10)
+    username_entry = ttk.Entry(root, font=("Arial", 12))
+    username_entry.pack(pady=10)
+
+    # Add a Find Details button
+    find_details_button = ttk.Button(
+        root,
+        text="Find Details",
+        command=lambda: find_user_details(username_entry.get()),
+        width=20,
+        style="TButton",
+    )
+    find_details_button.pack(pady=10)
+
+    # Password Label
+    password_label = ttk.Label(
+        root,
+        text="Password: ",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    password_label.pack(pady=10)
+    # Password Entry
+    password_entry = ttk.Entry(root, font=("Arial", 12))
+    password_entry.pack(pady=10)
+    
+    # Phone Label
+    phone_label = ttk.Label(
+        root,
+        text="Phone: ",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    phone_label.pack(pady=10)
+    # Phone Entry
+    phone_entry = ttk.Entry(root, font=("Arial", 12))
+    phone_entry.pack(pady=10)
+    
+    # Email Label
+    email_label = ttk.Label(
+        root,
+        text="Email: ",
+        font=("Arial", 12, "bold"),
+        foreground="#ffffff",
+        background="#1c1c1c",
+    )
+    email_label.pack(pady=10)
+    # Email Entry
+    email_entry = ttk.Entry(root, font=("Arial", 12))
+    email_entry.pack(pady=10)
+    
+    # Add a Update User button
+    update_user_button = ttk.Button(
+        root,
+        text="Update User",
+        command=lambda: update_user(username_entry.get(), password_entry.get(), phone_entry.get(), email_entry.get()),
+        width=20,
+        style="TButton",
+    )
+    update_user_button.pack(pady=10)
+
+    # Add a back button
+    back_button = ttk.Button(
+        root,
+        text="Back",
+        command=lambda: admin_window(root),
+        width=20,
+        style="TButton",
+    )
+    back_button.pack(pady=10)
+
+
 main_window = tk.Tk()
 login_window(main_window)
 main_window.mainloop()
@@ -733,3 +1049,5 @@ print("Exiting...")
 cursor.close()
 connection.close()
 sys.exit(0)
+
+
