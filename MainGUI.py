@@ -81,7 +81,7 @@ def play_window(window):
         root,
         text="Choose a Game",
         font=("Arial", 24, "bold"),
-        foreground="#ffffff",
+        foreground=LABEL_TEXT_COLOR,
         background=LABEL_BACKGROUND_COLOR,
     )
     header_label.pack(pady=20)
@@ -1065,5 +1065,3 @@ print("Exiting...")
 cursor.close()
 connection.close()
 sys.exit(0)
-
-
