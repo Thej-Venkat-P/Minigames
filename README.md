@@ -25,6 +25,8 @@ Change the curr_path variable in SpaceInvader.py to the path of the Space_Invade
 curr_path = r"path to the Space_Invaders folder on your device"
 ```
 
+Setup the Database as shown in the SQL file in SQL_queries Directory and change the connection to your own server connection.
+
 ## How to run
 
 You can the play the games individually by running the main file in each project.  
