@@ -2,7 +2,7 @@ import turtle
 import random
 import sys
 
-curr_path = r"C:\Users\Thej Venkat\Desktop\Projects\DBMS_MiniProject\Space_Invaders"
+curr_path = r"C:\Users\Thej Venkat\Desktop\Projects\Minigames\Space_Invaders"
 
 def initialize_variables():
     global game_speed_factor, game_over_message, score, SCREEN_WIDTH, SCREEN_HEIGHT, WN, line, Hero_im, bulletim, list_of_enemies, hero, bullet
